@@ -91,9 +91,6 @@ This project is ideal for students learning:
 * Network Protocol Analysis
 
 
-
-## code
-
 import socket
 import struct
 import textwrap
@@ -162,9 +159,6 @@ def main():
         print("\nStopping Sniffer...")
         conn.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
 
-
-
-
 def ipv4_packet(data):
     version_header_length = data[0]
     version = version_header_length >> 4
@@ -172,18 +166,12 @@ def ipv4_packet(data):
     ttl, proto, src, target = struct.unpack('! 8x B B 2x 4s 4s', data[:20])
     return version, header_length, ttl, proto, ipv4(src), ipv4(target), data[header_length:]
 
-
 def ipv4(addr):
     return '.'.join(map(str, addr))
-
-
-
 
 def icmp_packet(data):
     icmp_type, code, checksum = struct.unpack('! B B H', data[:4])
     return icmp_type, code, checksum, data[4:]
-
-
 
 def tcp_segment(data):
     (src_port, dest_port, sequence,
@@ -200,21 +188,15 @@ def tcp_segment(data):
     return (src_port, dest_port, sequence, acknowledgment,
             flag_urg, flag_ack, flag_psh,
             flag_rst, flag_syn, flag_fin, data[offset:])
-
-
-
 def udp_segment(data):
     src_port, dest_port, size = struct.unpack('! H H H', data[:6])
     return src_port, dest_port, size, data[8:]
-
-
 
 def format_multi_line(prefix, string, size=80):
     size -= len(prefix)
     if isinstance(string, bytes):
         string = ''.join(r'\x{:02x}'.format(byte) for byte in string)
     return '\n'.join([prefix + line for line in textwrap.wrap(string, size)])
-
 
 if __name__ == "__main__":
     main()
