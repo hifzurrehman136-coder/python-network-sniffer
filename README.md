@@ -107,7 +107,7 @@ DATA_TAB_3 = '\t\t\t'
 
 
 def main():
-    # Windows raw socket
+   
     host = socket.gethostbyname(socket.gethostname())
     conn = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_IP)
     conn.bind((host, 0))
